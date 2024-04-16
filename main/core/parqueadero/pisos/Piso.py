@@ -1,4 +1,4 @@
-import Posicion
+from ..pisos.Posicion import Posicion
 
 class Piso():
 
@@ -14,9 +14,9 @@ class Piso():
                 elif(j<20):
                     kind = 1
                 else:
-                    kind = 3
-                self.positions.append(Posicion(i+j, kind, False))
+                    kind = 2
+                self.positions.append(Posicion(i + str(j), kind, False))
 
     def printPositions(self):
         for i in range(210):
-            print(self.positions[i].printData)
+            self.positions[i].printData()

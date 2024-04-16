@@ -12,5 +12,5 @@ class Posicion():
         self.has = vehicle
     
     def printData(self):
-        print("Ubicación: ",self.puesto, "\nTipo: ", self.kind, "\nCupo", not self.has)
+        print("Ubicación: ",self.puesto, "    Tipo: ", self.kind, "    Cupo: ", not self.has)
     
