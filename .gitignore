@@ -1,4 +1,4 @@
 **.aseprite
 **.ase
-**.pyc
 **\__pycache__
+*.pyc
