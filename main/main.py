@@ -1,5 +1,5 @@
 from core.parqueadero.pisos.Piso import Piso
 
-pisotest = Piso("pipi")
+pisotest = Piso("")
 
 pisotest.printPositions()
