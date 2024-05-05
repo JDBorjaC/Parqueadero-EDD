@@ -1,5 +1,5 @@
-from Button import Button
-from Image import Image
+from core.pygame.Button import Button
+from core.pygame.Image import Image
 
 import pygame
 
@@ -16,14 +16,14 @@ colorAvailable = (125, 158, 125)
 tab1 = []
 tab2 = []
 
-titleImg = pygame.image.load('assets/title.png').convert_alpha()
-backdropImg = pygame.image.load('assets/menuBackdrop.png').convert_alpha()
-startBtnImg = pygame.image.load('assets/startButtonN.png').convert_alpha()
-startBtnHov = pygame.image.load('assets/startButtonP.png').convert_alpha()
-menuBackground = pygame.image.load('assets/menuDrawing.png').convert_alpha()
-parkgridImg = pygame.image.load('assets/windowref.png').convert_alpha()
+titleImg = pygame.image.load('core/assets/title.png').convert_alpha()
+backdropImg = pygame.image.load('core/assets/menuBackdrop.png').convert_alpha()
+startBtnImg = pygame.image.load('core/assets/startButtonN.png').convert_alpha()
+startBtnHov = pygame.image.load('core/assets/startButtonP.png').convert_alpha()
+menuBackground = pygame.image.load('core/assets/menuDrawing.png').convert_alpha()
+parkgridImg = pygame.image.load('core/assets/windowref.png').convert_alpha()
 
-carLotImg = pygame.image.load('assets/carlot.png').convert_alpha()
+carLotImg = pygame.image.load('core/assets/carlot.png').convert_alpha()
         
 
 #instance buttons
