@@ -1,6 +1,6 @@
-from main.core.parqueadero.vehiculos import Vehiculo
-from main.core.parqueadero.vehiculos.Auto import Auto
-from main.core.parqueadero.vehiculos.Motocicleta import Motocicleta
+from core.parqueadero.vehiculos import Vehiculo
+from core.parqueadero.vehiculos.Auto import Auto
+from core.parqueadero.vehiculos.Motocicleta import Motocicleta
 
 
 class Posicion():

@@ -1,3 +1,4 @@
+from core.parqueadero.Parqueadero import Parqueadero
 from core.pygame.Button import Button
 from core.pygame.Image import Image
 
@@ -10,7 +11,10 @@ SCREEN_WIDTH = 1000
 #setup---------------------
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption('Demo')
-colorAvailable = (125, 158, 125)
+colorAvailable = pygame.Color(125, 158, 125)
+colorUnavailable = pygame.Color(237, 71, 71)
+
+parqueadero = Parqueadero()
 
 #Listas de imagenes a mostrar
 tab1 = []
@@ -43,14 +47,21 @@ tab2.append(parkgrid)
 #dependiendo de eso, sacar un PixelArray del carLotImg, usar PixelArray.replace() para
 #reemplazar el color default de magenta con el que viene la imagen al color correspondiente
 #luego, blittear el PixelArray a screen.
-def renderLotButtons():
+def renderLotButtons(floor):
+    
+    floor = parqueadero.getFloor(floor)
+    
     for i in range(0, 10):
         for j in range(0, 21):
-            
+                        
+            slot = floor.getSlotByName(chr(65+i)+str(j+1))
             pArray = pygame.PixelArray(carLotImg)
+            if not slot.getVehicle(): #If there *is* a vehicle in the slot, paint it green
+                pArray.replace(pygame.Color(255, 0, 161), colorAvailable)
+            else: #else, paint it red
+                pArray.replace(pygame.Color(255, 0, 161), colorUnavailable)
             
-            
-            
+            currentLot = pArray.make_surface()
             screen.blit(currentLot, (j*30+347, i*44+27))
 
 
@@ -77,7 +88,9 @@ while run:
             for img in tab2:
                 img.render()
             
-            renderLotButtons()
+            
+            floor = 1
+            renderLotButtons(floor)
     
     #Events
     for event in pygame.event.get():
