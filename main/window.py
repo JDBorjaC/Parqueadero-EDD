@@ -46,7 +46,12 @@ tab2.append(parkgrid)
 def renderLotButtons():
     for i in range(0, 10):
         for j in range(0, 21):
-            screen.blit(carLotImg, (j*30+347, i*44+27))
+            
+            pArray = pygame.PixelArray(carLotImg)
+            
+            
+            
+            screen.blit(currentLot, (j*30+347, i*44+27))
 
 
 #game loop
