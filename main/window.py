@@ -1,4 +1,5 @@
 from core.parqueadero.Parqueadero import Parqueadero
+from core.parqueadero.vehiculos.TipoVehiculo import TipoVehiculo
 from core.pygame.Button import Button
 from core.pygame.Image import Image
 
@@ -44,10 +45,10 @@ leftSkinnyPressed = pygame.transform.flip(rightSkinnyPressed, True, False)
 
 #instance buttons
 startBtn = Button(SCREEN_WIDTH/2, (SCREEN_HEIGHT/2)-75, startBtnImg, startBtnHov, screen)
-floorUpBtn = Button(190+36, 424+33, rightArrImg, rightArrPressedImg, screen)
-floorDownBtn = Button(98+36, 424+33, leftArrImg, leftArrPressedImg, screen)
-rowUpBtn = Button(704+58, 461+13, rightSkinnyImg, rightSkinnyPressed, screen)
-rowDownBtn =Button(497+58, 461+13, leftSkinnyImg, leftSkinnyPressed, screen)
+floorUpBtn = Button(178+36, 410+33, rightArrImg, rightArrPressedImg, screen)
+floorDownBtn = Button(85+36, 410+33, leftArrImg, leftArrPressedImg, screen)
+rowUpBtn = Button(704+58, 445+13, rightSkinnyImg, rightSkinnyPressed, screen)
+rowDownBtn =Button(497+58, 445+13, leftSkinnyImg, leftSkinnyPressed, screen)
 
 
 #instance images
@@ -65,7 +66,7 @@ tab2.append(parkgrid)
 #reemplazar el color default de magenta con el que viene la imagen al color correspondiente
 #luego, blittear el PixelArray a screen.
 
-#la fila a mostrar se toma como parametro i, junto con el floor
+#la fila a mostrar se toma como parametro i, junto con el floor, para colorear cada celda correctamente
 def renderLotButtons(floor, i):
     
     floor = parqueadero.getFloor(floor)
@@ -76,12 +77,12 @@ def renderLotButtons(floor, i):
         slot = floor.getSlotByName(chr(65+i)+str(j+1))
         
         #Decide image
-        match slot.getKind():
-            case "car":
+        match slot.getType():
+            case TipoVehiculo.car:
                 pArray = pygame.PixelArray(carLotImg)                    
-            case "motorcycle":
+            case TipoVehiculo.motorcycle:
                 pArray = pygame.PixelArray(bikeLotImg)
-            case "reduced_mobility":
+            case TipoVehiculo.reduced_mobility:
                 pArray = pygame.PixelArray(discLotImg)
                 
         
@@ -106,10 +107,8 @@ run = True
 tab = 0
 floor = 0
 row = 0
+current_col = -1
 while run:
-    
-    
-    
     screen.fill((202, 228, 241))
     
     match tab: #Change buttons and images depending on the tab
@@ -124,15 +123,19 @@ while run:
         
         case 1:
             
+            #ubicar la celda a editar en base a la posicion del mouse en vez de usar botones
             mouse_pos = pygame.mouse.get_pos()
-            mouse_x, mouse_y = mouse_pos
-            if framecount % 600 == 0:
-                if 347 < mouse_x < SCREEN_WIDTH and 27 < mouse_y < SCREEN_WIDTH:
-                    current_col = int((mouse_x - 347)/30)+1
-                    current_row = chr(65 + int((mouse_y - 27)/44))
-                    print("currently at "+current_row+str(current_col))
-                else:
-                    print("currently nowhere")
+            if 381 < mouse_pos[0] < 940:
+                if 43 < mouse_pos[1] < 121:#upper sub-row
+                    current_col = int((mouse_pos[0] - 381)/80)+1
+                elif 202 < mouse_pos[1] < 281: #middle sub-row
+                    current_col = int((mouse_pos[0] - 381)/80)+8
+                elif 362 < mouse_pos[1] < 441:
+                    current_col = int((mouse_pos[0] - 381)/80)+15
+                else: #trágico
+                    current_col = -1
+            else:
+                current_col = -1
             
             #Images
             for img in tab2:
@@ -150,9 +153,7 @@ while run:
             
             if rowDownBtn.draw() and row>0:
                 row -= 1
-            
-            print("floor: ",floor," row: ",row)
-            
+                        
             renderLotButtons(floor, row)
     
     #Events
@@ -160,6 +161,9 @@ while run:
         #Quitting
         if event.type == pygame.QUIT:
             run = False
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if tab == 1 and current_col != -1:
+                print("currently at ", chr(65+row), current_col)
     
     pygame.display.update()
 

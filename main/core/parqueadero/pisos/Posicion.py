@@ -1,6 +1,5 @@
 from core.parqueadero.vehiculos import Vehiculo
-from core.parqueadero.vehiculos.Auto import Auto
-from core.parqueadero.vehiculos.Motocicleta import Motocicleta
+from core.parqueadero.vehiculos.TipoVehiculo import TipoVehiculo
 
 
 class Posicion():
@@ -34,7 +33,7 @@ class Posicion():
         return self.puesto
 
     def getType(self) -> TipoVehiculo:
-        return self.kind
+        return self.type
     
     def print(self):
         print("Ubicación: "+self.piso.getName()+self.puesto+ "    Tipo: "+ str(self.type)+"    Cupo: ",not self.vehicle,"    Carro: "+self.vehicleData())
