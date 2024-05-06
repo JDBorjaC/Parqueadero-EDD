@@ -6,36 +6,26 @@ from core.parqueadero.vehiculos.Motocicleta import Motocicleta
 class Posicion():
 
     #puesto -> "A1", fila A, pos 1
-    #kind -> ["car", "motorcycle", "reduced_mobility"]
+    #kind -> TipoVehiculo.car/motorcycle/reduced_mobility
 
-    def __init__(self, piso, puesto, kind, vehicle):
+    def __init__(self, piso, puesto, type, vehicle):
         self.piso = piso
         self.puesto = puesto
-        self.kind = kind
+        self.type = type
         self.vehicle = vehicle
-        self.lastTimeFilled = None
-        
+
+    #La "key" es el puesto
     def keyEquals(self, key):
         return self.puesto == key
 
     def validToAdd(self, vehicle):
-        if self.kind == "reduced_mobility":
-            return vehicle.hasReducedMobility
-        return (self.kind == "car" and isinstance(vehicle, Auto)) or (self.kind == "motorcycle" and isinstance(vehicle, Motocicleta))
+        return self.type == vehicle.getType()
         
-    def fillSlot(self, vehicle, hour) -> None:
+    def fillSlot(self, vehicle) -> None:
         self.vehicle = vehicle
-        self.lastTimeFilled = hour
     
-    def clearSlot(self, hora_salida):
+    def clearSlot(self):
         self.vehicle = None
-        # TODO: Manejar el cobro del parqueo (por el momento existe el método precioSosio)
-
-    def precioSosio(self, hora_salida):
-        horas = (hora_salida - self.vehicle.lastTimeFilled)/3600
-        if horas % 1 > 0:
-            return 2000*(1 + int(horas))
-        return 2000*int(horas)
 
     def getVehicle(self) -> Vehiculo:
         return self.vehicle
@@ -43,11 +33,11 @@ class Posicion():
     def getPuesto(self) -> str:
         return self.puesto
 
-    def getKind(self) -> str:
+    def getType(self) -> TipoVehiculo:
         return self.kind
     
     def print(self):
-        print("Ubicación: "+self.piso.getName()+self.puesto+ "    Tipo: "+ self.kind+"    Cupo: ",not self.vehicle,"    Carro: "+self.vehicleData())
+        print("Ubicación: "+self.piso.getName()+self.puesto+ "    Tipo: "+ str(self.type)+"    Cupo: ",not self.vehicle,"    Carro: "+self.vehicleData())
 
     def vehicleData(self) -> str:
         if self.vehicle:

@@ -43,9 +43,9 @@ class LinkedList:
         if not temporal.next:
           return
         
-        temporal.next = temporal.next.next  
-      
-    # Obtención del dato de un nodo dado su índice en la lista    
+        temporal.next = temporal.next.next
+
+        # Obtención del dato de un nodo dado su índice en la lista
     def get(self, index):
         temp = self.head
         currentpos = 0

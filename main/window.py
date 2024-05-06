@@ -108,6 +108,8 @@ floor = 0
 row = 0
 while run:
     
+    
+    
     screen.fill((202, 228, 241))
     
     match tab: #Change buttons and images depending on the tab
@@ -122,10 +124,21 @@ while run:
         
         case 1:
             
+            mouse_pos = pygame.mouse.get_pos()
+            mouse_x, mouse_y = mouse_pos
+            if framecount % 600 == 0:
+                if 347 < mouse_x < SCREEN_WIDTH and 27 < mouse_y < SCREEN_WIDTH:
+                    current_col = int((mouse_x - 347)/30)+1
+                    current_row = chr(65 + int((mouse_y - 27)/44))
+                    print("currently at "+current_row+str(current_col))
+                else:
+                    print("currently nowhere")
+            
             #Images
             for img in tab2:
                 img.render()
                 
+            #Buttons
             if floorUpBtn.draw() and floor<2:
                 floor += 1
             
