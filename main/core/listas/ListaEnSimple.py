@@ -28,7 +28,7 @@ class LinkedList:
 
     # Método para eleminar nodos
     def delete(self, key):
-        if self.head.data.equals(key): #Caso especial para primer dato
+        if self.head.data.keyEquals(key): #Caso especial para primer dato
           self.head = self.head.next
           return
         

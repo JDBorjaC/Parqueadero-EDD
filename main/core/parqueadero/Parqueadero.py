@@ -26,7 +26,8 @@ class Parqueadero():
             return True
         return False
 
-    def removeVehicle(self, position, hora_salida) -> bool:
+    def removeVehicle(self, floorNumber, positionName, hora_salida) -> bool:
+        position = self.getFloor(floorNumber).getSlotByName(positionName)
         self.horasIngreso.delete(position.getVehicle().getPlaca())
         self.vehicles.delete(position.getVehicle())
         position.clearSlot()

@@ -216,9 +216,12 @@ while run:
                 row -= 1
                 currentSlot = ''
                 resetLabelsTab2()
-                
-            if deleteBtn.draw():
-                print("delete btn pressed")
+
+
+            if currentSlot != '':
+                if parqueadero.getFloor(floor).getSlotByName(currentSlot).getVehicle():
+                    if deleteBtn.draw():
+                        parqueadero.removeVehicle(floor, currentSlot, datetime.datetime.now)
             
             if addBtn.draw():
                 
@@ -238,7 +241,7 @@ while run:
 
                 if flag:
                     msg = 'Se agregó el vehículo con éxito'
-                    parqueadero.addVehicle(floor, currentSlot, placa, datetime.time)
+                    parqueadero.addVehicle(floor, currentSlot, placa, datetime.datetime.now)
 
                 tab2inputs['response'].setText(msg)
 
@@ -273,9 +276,11 @@ while run:
 
         if event.type == pygame.MOUSEBUTTONDOWN:
             if tab == 1:
+                tab2inputs['response'].setText('')
                 if current_col != -1:
                     currentSlot = chr(65+row) + str(current_col)
                     slot = parqueadero.getFloor(floor).getSlotByName(currentSlot)
+                    tab2inputs['placa'].setText(slot.getPlaca())
                     tab2inputs['lot'].setText(slot.getName())
                     vtype = ""
                     match slot.getType():
@@ -290,6 +295,7 @@ while run:
                     tab2inputs['estado'].setText(estado)
                     if estado == 'Ocupado':
                         tab2inputs['placa'].setEditable(False)
+                        tab2inputs['placa'].setActive(False)
                     else:
                         tab2inputs['placa'].setEditable(True)
 

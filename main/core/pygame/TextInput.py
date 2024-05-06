@@ -47,3 +47,7 @@ class TextInput():
 
     def setEditable(self, boolean):
         self.editable = boolean
+
+    def setActive(self, boolean):
+        self.color = self.passivecolor
+        self.active = boolean

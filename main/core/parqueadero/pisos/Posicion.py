@@ -26,6 +26,11 @@ class Posicion():
     def getVehicle(self) -> Vehiculo:
         return self.vehicle
 
+    def getPlaca(self):
+        if self.vehicle:
+            return self.vehicle.getPlaca()
+        return ''
+
     def getEstado(self) -> str:
         if self.vehicle:
             return 'Ocupado'
