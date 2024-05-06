@@ -121,7 +121,9 @@ def renderLotButtons(floor, i):
                 
         
         #Decide color
-        if not slot.getVehicle(): #If there *is* a vehicle in the slot, paint it green
+        if slot.keyEquals(currentSlot):
+            pArray.replace(pygame.Color(255,0,161,), pygame.Color(100,0,255))
+        elif not slot.getVehicle(): #If there *is* a vehicle in the slot, paint it green
             pArray.replace(pygame.Color(255, 0, 161), colorAvailable)
         else: #else, paint it red
             pArray.replace(pygame.Color(255, 0, 161), colorUnavailable)
@@ -134,9 +136,15 @@ def renderLotButtons(floor, i):
         #a 381 le sumas la fraccion de la longitud en la que estas (1/7, 2/7, 3/7...)
         currentLot = pArray.make_surface()
         #Reset pArray
+        pArray.replace(pygame.Color(100,0,255), pygame.Color(255,0,161))
         pArray.replace(colorAvailable, pygame.Color(255,0,161))
         pArray.replace(colorUnavailable, pygame.Color(255, 0, 161))
         screen.blit(currentLot, (381+(xPixel/7)*560, 30+(160*yOffset)))
+
+def resetLabelsTab2():
+    tab2inputs['lot'].setText('')
+    tab2inputs['tipo'].setText('')
+    tab2inputs['estado'].setText('')
 
 
 #game loop
@@ -188,15 +196,23 @@ while run:
             
             if floorUpBtn.draw() and floor<2:
                 floor += 1
-            
+                currentSlot = ''
+                resetLabelsTab2()
+
             if floorDownBtn.draw() and floor>0:   
                 floor -= 1
+                currentSlot = ''
+                resetLabelsTab2()
             
             if rowUpBtn.draw() and row<9:
                 row += 1
+                currentSlot = ''
+                resetLabelsTab2()
             
             if rowDownBtn.draw() and row>0:
                 row -= 1
+                currentSlot = ''
+                resetLabelsTab2()
                 
             if addBtn.draw():
                 print("addPressed")
