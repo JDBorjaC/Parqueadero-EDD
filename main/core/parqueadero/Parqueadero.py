@@ -1,8 +1,8 @@
-from main.core.listas.ListaEnSimple import LinkedList
-from main.core.parqueadero.pisos.Piso import Piso
-from main.core.parqueadero.pisos.Posicion import Posicion
-from main.core.parqueadero.vehiculos.Vehiculo import Vehiculo
-from main.core.parqueadero.vehiculos.HoraIngreso import HoraIngreso
+from core.listas.ListaEnSimple import LinkedList
+from core.parqueadero.pisos.Piso import Piso
+from core.parqueadero.pisos.Posicion import Posicion
+from core.parqueadero.vehiculos.HoraIngreso import HoraIngreso
+from core.parqueadero.vehiculos.Vehiculo import Vehiculo
 
 
 class Parqueadero():
@@ -18,13 +18,16 @@ class Parqueadero():
 
     def addVehicle(self, floorNumber, positionName, placa, hour) -> bool:
         position = self.getFloor(floorNumber).getSlotByName(positionName)
-        vehicle = Vehiculo(placa, position.getType())
+        vehicle = Vehiculo(placa, position.getType(), "F"+str(floorNumber+1)+positionName)
         if not self.vehicles.containsObject(vehicle):
             position.fillSlot(vehicle)
-            self.vehicles.append(vehicle)
+            self.addVehicleToList(vehicle)
             self.horasIngreso.append(HoraIngreso(vehicle.getPlaca(), hour))
             return True
         return False
+
+    def addVehicleToList(self, vehicle):
+        self.vehicles.append(vehicle)
 
     def removeVehicle(self, floorNumber, positionName, hora_ingreso, hora_salida) -> float:
         position = self.getFloor(floorNumber).getSlotByName(positionName)
@@ -49,3 +52,8 @@ class Parqueadero():
         if piso:
             return piso.getSlotByName(nombre[2:4])
         return None
+
+    def getVehiclesInFloor(self, floor):
+        searchIn = self.getFloor(floor)
+        vehicles = searchIn.getAllVehicles()
+        return vehicles

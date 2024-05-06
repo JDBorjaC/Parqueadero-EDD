@@ -1,5 +1,5 @@
-from main.core.parqueadero.vehiculos import Vehiculo
-from main.core.parqueadero.vehiculos.TipoVehiculo import TipoVehiculo
+from core.parqueadero.vehiculos import Vehiculo
+from core.parqueadero.vehiculos.TipoVehiculo import TipoVehiculo
 
 
 class Posicion():

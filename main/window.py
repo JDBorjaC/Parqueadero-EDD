@@ -2,12 +2,12 @@ import datetime
 
 from core.parqueadero.Parqueadero import Parqueadero
 from core.parqueadero.vehiculos.TipoVehiculo import TipoVehiculo
+from core.parqueadero.vehiculos.Vehiculo import Vehiculo
 from core.pygame.Button import Button
 from core.pygame.Image import Image
+from core.pygame.TextInput import TextInput
 
 import pygame
-
-from main.core.pygame.TextInput import TextInput
 
 #display stuff
 SCREEN_HEIGHT = 500
@@ -36,10 +36,13 @@ tab2inputs = {
     'estado': TextInput(pygame.Rect(191,222,90,32), 6, False),
     'response': TextInput(pygame.Rect(70,343,200,32), 50,False)
 }
+
 tab3inputs = {
-    'placa': TextInput(pygame.Rect(163,157,267,44)),
-    'piso': TextInput(pygame.Rect(163,335,267,44))
+    'placa': TextInput(pygame.Rect(163,157,267,44), 21),
+    'piso': TextInput(pygame.Rect(163,335,267,44), 21),
 }
+
+tab3disp = TextInput(pygame.Rect(513,86,312,345), 20000, False)
 
 #Surfaces que se van a usar (tragedia)
 titleImg = pygame.image.load('core/assets/title.png').convert_alpha()
@@ -98,6 +101,9 @@ tab2.append(parkgrid)
 tab3bg = Image(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, tab3refImg, screen)
 tab3.append(tab3bg)
 
+
+parqueadero.addVehicle(0, "A2", Vehiculo("MXN569", TipoVehiculo.car, "A2"), "ALGUNAHORAAHÍ")
+
 #ir celda por celda y revisar si el lote está ocupado
 #dependiendo de eso, sacar un PixelArray del carLotImg, usar PixelArray.replace() para
 #reemplazar el color default de magenta con el que viene la imagen al color correspondiente
@@ -126,7 +132,7 @@ def renderLotButtons(floor, i):
         #Decide color
         if slot.keyEquals(currentSlot):
             pArray.replace(pygame.Color(255,0,161,), pygame.Color(100,0,255))
-        elif not slot.getVehicle(): #If there *is* a vehicle in the slot, paint it green
+        elif not slot.getVehicle(): #If there *isnt* a vehicle in the slot, paint it green
             pArray.replace(pygame.Color(255, 0, 161), colorAvailable)
         else: #else, paint it red
             pArray.replace(pygame.Color(255, 0, 161), colorUnavailable)
@@ -157,7 +163,8 @@ floor = 0
 row = 0
 current_col = -1
 currentSlot = ''
-msg = ''
+carList = []
+msg = []
 while run:
     screen.fill((202, 228, 241))
     
@@ -266,13 +273,33 @@ while run:
                 tab -= 1
             
             if searchByCarBtn.draw():
-                print("an why he ourple")
+                placa = tab3inputs['placa'].getText()
+                if len(placa) != 6:
+                    tab3inputs['placa'].setText("Placa inválida.")
+                elif not (placa[:3].isalpha() and placa[3:].isdigit()):
+                    tab3inputs['placa'].setText('La placa ingresada no es válida')
+                else:
+                    carList = [str(parqueadero.getVehicle(placa)), str(parqueadero.getVehicle(placa).getPos())]
+                
+                    
             
             if searchFloorBtn.draw():
-                print("an whyhe ouprpl")
+                try:
+                    index = int(tab3inputs['piso'].getText())-1
+                    vehicles = parqueadero.getVehiclesInFloor(index)
+                    listToPass = []
+                    for v in vehicles:
+                        listToPass.append(str(v))
+                    carList = listToPass
+                except:
+                    tab3inputs['piso'].setText("Piso inválido.")
 
             for textinput in tab3inputs.values():
                 textinput.draw(screen, surface)
+            
+            tab3disp.drawList(screen, surface, carList)
+            
+            
     
     #Events
     for event in pygame.event.get():
