@@ -33,7 +33,7 @@ tab2inputs = {
     'lot': TextInput(pygame.Rect(135,38,90,32), 6, False),
     'placa': TextInput(pygame.Rect(191,90,85,24), 6),
     'tipo': TextInput(pygame.Rect(191,152,90,32), 6, False),
-    'estado': TextInput(pygame.Rect(191,222,90,32), 6, False),
+    'estado': TextInput(pygame.Rect(191,222,90,32), 7, False),
     'response': TextInput(pygame.Rect(70,343,200,32), 50,False)
 }
 
@@ -233,6 +233,7 @@ while run:
                         msg = 'El vehículo ' + vehiculo.getPlaca() + ' ('+hora_ingreso.strftime("%I:%M:%S %p")+'-'+hora_salida.strftime("%I:%M:%S %p")+')'
                         cobro = parqueadero.removeVehicle(floor, currentSlot, hora_ingreso, hora_salida)
                         msg = [msg, f'pagó {cobro} al salir']
+                        tab2inputs['estado'].setText("Libre")
 
             if addBtn.draw():
                 
@@ -252,6 +253,7 @@ while run:
                 if flag:
                     msg = ['Se ingresó el vehículo']
                     parqueadero.addVehicle(floor, currentSlot, placa, datetime.datetime.now())
+                    tab2inputs['estado'].setText("Ocupado")
 
             renderLotButtons(floor, row)
             

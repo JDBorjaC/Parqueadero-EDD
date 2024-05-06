@@ -11,9 +11,9 @@ class Piso():
         for i in range(rows):
             for j in range(columns):
                 if j < 12:
-                    kind = TipoVehiculo.car
-                elif j < 20:
                     kind = TipoVehiculo.motorcycle
+                elif j < 20:
+                    kind = TipoVehiculo.car
                 else:
                     kind = TipoVehiculo.reduced_mobility
                 self.positions.append(Posicion(self, chr(65+i) + str(j+1), kind, False))
