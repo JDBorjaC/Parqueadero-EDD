@@ -18,13 +18,16 @@ class Parqueadero():
 
     def addVehicle(self, floorNumber, positionName, placa, hour) -> bool:
         position = self.getFloor(floorNumber).getSlotByName(positionName)
-        vehicle = Vehiculo(placa, position.getType())
+        vehicle = Vehiculo(placa, position.getType(), "F"+str(floorNumber+1)+positionName)
         if not self.vehicles.containsObject(vehicle):
             position.fillSlot(vehicle)
-            self.vehicles.append(vehicle)
+            self.addVehicleToList(vehicle)
             self.horasIngreso.append(HoraIngreso(vehicle.getPlaca(), hour))
             return True
         return False
+
+    def addVehicleToList(self, vehicle):
+        self.vehicles.append(vehicle)
 
     def removeVehicle(self, position, hora_salida) -> bool:
         self.horasIngreso.delete(position.getVehicle().getPlaca())

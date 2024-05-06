@@ -1,10 +1,11 @@
-from main.core.parqueadero.vehiculos.TipoVehiculo import TipoVehiculo
+from core.parqueadero.vehiculos.TipoVehiculo import TipoVehiculo
 
 
 class Vehiculo():
-    def __init__(self, placa, type):
+    def __init__(self, placa:str, type, pos):
         self.placa = placa
         self.type = type
+        self.pos = pos
 
     #La "key" del vehiculo es su placa. Útil para saber si ya existe un vehículo con la placa
     def keyEquals(self, key) -> bool:
@@ -17,10 +18,14 @@ class Vehiculo():
         return False
     
     def __str__(self):
-        return "{ "+f"{self.placa} - {self.type}"+" }"
+        msg = str(self.placa) +", "+ str(self.type)
+        return msg
 
     def getPlaca(self) -> str:
         return self.placa
 
     def getType(self) -> TipoVehiculo:
         return self.type
+    
+    def getPos(self) -> str:
+        return self.pos

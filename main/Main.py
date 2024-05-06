@@ -5,6 +5,6 @@ from main.core.parqueadero.vehiculos.Vehiculo import Vehiculo
 
 parqueadero = Parqueadero()
 
-parqueadero.addVehicle(0, "A2", Vehiculo("MXN569", TipoVehiculo.car), "ALGUNAHORAAHÍ")
+parqueadero.addVehicle(0, "A2", Vehiculo("MXN569", TipoVehiculo.car, "F1A2"), "ALGUNAHORAAHÍ")
 
 parqueadero.getFloor(0).getSlotByName("A2").print()

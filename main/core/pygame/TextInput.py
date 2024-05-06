@@ -38,6 +38,13 @@ class TextInput():
 
         screen.blit(surface, (0,0))
         screen.blit(text_surface, (self.rect.x + 5, self.rect.y + 4*((self.rect.h - 24)//8+1)))
+        
+    def drawList(self, screen, surface,  stringList):
+        pygame.draw.rect(surface, self.color, self.rect)
+        screen.blit(surface, (0,0))
+        for i in range(len(stringList)):
+            text_surface = self.font.render(stringList[i], False, (0,0,0))
+            screen.blit(text_surface, (self.rect.x + 5, self.rect.y + 4*(i*5)))
 
     def getText(self) -> str:
         return self.text
