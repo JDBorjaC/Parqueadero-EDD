@@ -8,7 +8,7 @@ class Parqueadero():
     def __init__(self):
         self.floors = LinkedList()
         self.vehicles = LinkedList()
-        for i in range(1, 3):
+        for i in range(0, 3):
             self.floors.append(Piso("F"+str(i), 10, 21))
         
     def getFloor(self, index) -> Piso:
