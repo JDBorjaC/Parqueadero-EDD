@@ -22,8 +22,6 @@ parqueadero = Parqueadero()
 tab1 = []
 tab2 = []
 
-<<<<<<< Updated upstream
-=======
 #Listas de TextInput
 tab2inputs = {
     'placa': TextInput(pygame.Rect(191,82,90,32)),
@@ -33,7 +31,6 @@ tab2inputs = {
 tab3inputs = []
 
 #Surfaces que se van a usar
->>>>>>> Stashed changes
 titleImg = pygame.image.load('core/assets/title.png').convert_alpha()
 backdropImg = pygame.image.load('core/assets/menuBackdrop.png').convert_alpha()
 startBtnImg = pygame.image.load('core/assets/startButtonN.png').convert_alpha()
@@ -113,12 +110,8 @@ while run:
             #Images
             for img in tab2:
                 img.render()
-            
-            
-<<<<<<< Updated upstream
-            floor = 1
-            renderLotButtons(floor)
-=======
+
+
             if rowUpBtn.draw() and row<9:
                 row += 1
             
@@ -128,16 +121,14 @@ while run:
             renderLotButtons(floor, row)
             for textinput in tab2inputs.values():
                 textinput.draw(screen)
->>>>>>> Stashed changes
+
     
     #Events
     for event in pygame.event.get():
         #Quitting
         if event.type == pygame.QUIT:
             run = False
-<<<<<<< Updated upstream
-    
-=======
+
         if event.type == pygame.MOUSEBUTTONDOWN:
             if tab == 1:
                 if current_col != -1:
@@ -150,8 +141,6 @@ while run:
                 for textinput in tab2inputs.values():
                     textinput.handleTyping(event)
 
-
->>>>>>> Stashed changes
     pygame.display.update()
 
 pygame.quit()
