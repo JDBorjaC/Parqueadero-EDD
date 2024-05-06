@@ -4,16 +4,13 @@ class Button():
         self.image = image
         self.hoverImage = hoverImage
         
-        #self.image = pygame.transform.scale_by(image, 1.5)
-        #self.hoverImage = pygame.transform.scale_by(hoverImage, 1.5)
-        
         self.rect = self.image.get_rect()
         self.rect.topleft = (x-(self.image.get_width()/2), y-(self.image.get_height()/2))
         self.clicked = False
         
         self.screen = screen
         
-    def draw(self):
+    def draw(self) -> bool:
         
         action = False
         img = self.image

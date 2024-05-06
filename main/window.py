@@ -20,6 +20,7 @@ parqueadero = Parqueadero()
 #Listas de imagenes a mostrar
 tab1 = []
 tab2 = []
+tab3 = []
 
 #Surfaces que se van a usar
 titleImg = pygame.image.load('core/assets/title.png').convert_alpha()
@@ -31,16 +32,23 @@ parkgridImg = pygame.image.load('core/assets/windowref.png').convert_alpha()
 carLotImg = pygame.image.load('core/assets/carlot.png').convert_alpha()
 bikeLotImg = pygame.image.load('core/assets/bikelot.png').convert_alpha()
 discLotImg = pygame.image.load('core/assets/disclot.png').convert_alpha()
-
+addBtnImg = pygame.image.load('core/assets/addBtn.png').convert_alpha()
+addBtnPressed = pygame.image.load('core/assets/addBtnPressed.png').convert_alpha()
 rightArrImg = pygame.image.load('core/assets/arrow.png').convert_alpha()
 leftArrImg = pygame.transform.flip(rightArrImg, True, False)
 rightArrPressedImg = pygame.image.load('core/assets/pressedarrow.png').convert_alpha()
 leftArrPressedImg = pygame.transform.flip(rightArrPressedImg, True, False)
-
 rightSkinnyImg = pygame.image.load('core/assets/skinnyarrow.png').convert_alpha()
 leftSkinnyImg = pygame.transform.flip(rightSkinnyImg, True, False)
 rightSkinnyPressed = pygame.image.load('core/assets/skinnypressed.png').convert_alpha()
 leftSkinnyPressed = pygame.transform.flip(rightSkinnyPressed, True, False)
+tab3refImg = pygame.image.load('core/assets/tab3ref.png').convert_alpha()
+searchBtnImg = pygame.image.load('core/assets/searchBtn.png').convert_alpha()
+searchBtnPressedImg = pygame.image.load('core/assets/searchBtnPressed.png').convert_alpha()
+backwardBtnImg = pygame.image.load('core/assets/backbtn.png').convert_alpha()
+backwardBtnPressedImg = pygame.image.load('core/assets/backbtnPressed.png').convert_alpha()
+forwardBtnImg = pygame.transform.flip(backwardBtnImg, True, False)
+forwardBtnImgPressed = pygame.transform.flip(backwardBtnPressedImg, True, False)
         
 
 #instance buttons
@@ -48,7 +56,12 @@ startBtn = Button(SCREEN_WIDTH/2, (SCREEN_HEIGHT/2)-75, startBtnImg, startBtnHov
 floorUpBtn = Button(178+36, 410+33, rightArrImg, rightArrPressedImg, screen)
 floorDownBtn = Button(85+36, 410+33, leftArrImg, leftArrPressedImg, screen)
 rowUpBtn = Button(704+58, 445+13, rightSkinnyImg, rightSkinnyPressed, screen)
-rowDownBtn =Button(497+58, 445+13, leftSkinnyImg, leftSkinnyPressed, screen)
+rowDownBtn = Button(497+58, 445+13, leftSkinnyImg, leftSkinnyPressed, screen)
+addBtn = Button(99+69, 270+16, addBtnImg, addBtnPressed, screen)
+searchByCarBtn = Button(235+63, 208+24, searchBtnImg, searchBtnPressedImg, screen)
+searchFloorBtn = Button(235+63, 386+24, searchBtnImg, searchBtnPressedImg, screen)
+forwardBtn = Button(911+44, 425+37, forwardBtnImg, forwardBtnImgPressed, screen)
+backwardBtn = Button(4+44, 2+37, backwardBtnImg, backwardBtnPressedImg, screen)
 
 
 #instance images
@@ -60,6 +73,8 @@ menubg = Image(SCREEN_WIDTH/2, (SCREEN_HEIGHT/2)+105, menuBackground, screen)
 tab1.append(menubg)
 parkgrid = Image(SCREEN_WIDTH/2, (SCREEN_HEIGHT/2), parkgridImg, screen)
 tab2.append(parkgrid)
+tab3bg = Image(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, tab3refImg, screen)
+tab3.append(tab3bg)
 
 #ir celda por celda y revisar si el lote está ocupado
 #dependiendo de eso, sacar un PixelArray del carLotImg, usar PixelArray.replace() para
@@ -142,6 +157,12 @@ while run:
                 img.render()
                 
             #Buttons
+            if backwardBtn.draw():
+                tab -= 1
+            
+            if forwardBtn.draw():
+                tab += 1
+            
             if floorUpBtn.draw() and floor<2:
                 floor += 1
             
@@ -153,8 +174,27 @@ while run:
             
             if rowDownBtn.draw() and row>0:
                 row -= 1
+                
+            if addBtn.draw():
+                print("addPressed")
                         
             renderLotButtons(floor, row)
+        
+        case 2:
+            
+            #Imagenes
+            for img in tab3:
+                img.render()
+            
+            #Botones
+            if backwardBtn.draw():
+                tab -= 1
+            
+            if searchByCarBtn.draw():
+                print("an why he ourple")
+            
+            if searchFloorBtn.draw():
+                print("an whyhe ouprpl")
     
     #Events
     for event in pygame.event.get():
