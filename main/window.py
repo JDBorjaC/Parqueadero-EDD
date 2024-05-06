@@ -4,6 +4,8 @@ from core.pygame.Image import Image
 
 import pygame
 
+from main.core.pygame.TextInput import TextInput
+
 #display stuff
 SCREEN_HEIGHT = 500
 SCREEN_WIDTH = 1000
@@ -20,6 +22,18 @@ parqueadero = Parqueadero()
 tab1 = []
 tab2 = []
 
+<<<<<<< Updated upstream
+=======
+#Listas de TextInput
+tab2inputs = {
+    'placa': TextInput(pygame.Rect(191,82,90,32)),
+    'tipo': TextInput(pygame.Rect(191,152,90,32)),
+    'estado': TextInput(pygame.Rect(191,222,90,32))
+}
+tab3inputs = []
+
+#Surfaces que se van a usar
+>>>>>>> Stashed changes
 titleImg = pygame.image.load('core/assets/title.png').convert_alpha()
 backdropImg = pygame.image.load('core/assets/menuBackdrop.png').convert_alpha()
 startBtnImg = pygame.image.load('core/assets/startButtonN.png').convert_alpha()
@@ -101,15 +115,43 @@ while run:
                 img.render()
             
             
+<<<<<<< Updated upstream
             floor = 1
             renderLotButtons(floor)
+=======
+            if rowUpBtn.draw() and row<9:
+                row += 1
+            
+            if rowDownBtn.draw() and row>0:
+                row -= 1
+                        
+            renderLotButtons(floor, row)
+            for textinput in tab2inputs.values():
+                textinput.draw(screen)
+>>>>>>> Stashed changes
     
     #Events
     for event in pygame.event.get():
         #Quitting
         if event.type == pygame.QUIT:
             run = False
+<<<<<<< Updated upstream
     
+=======
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if tab == 1:
+                if current_col != -1:
+                    print("currently at ", chr(65+row), current_col)
+                for textinput in tab2inputs.values():
+                    textinput.observeClick(event)
+
+        if event.type == pygame.KEYDOWN:
+            if tab == 1:
+                for textinput in tab2inputs.values():
+                    textinput.handleTyping(event)
+
+
+>>>>>>> Stashed changes
     pygame.display.update()
 
 pygame.quit()
