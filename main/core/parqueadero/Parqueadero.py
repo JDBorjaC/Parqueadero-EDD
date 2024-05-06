@@ -26,16 +26,16 @@ class Parqueadero():
             return True
         return False
 
-    def removeVehicle(self, floorNumber, positionName, hora_salida) -> bool:
+    def removeVehicle(self, floorNumber, positionName, hora_ingreso, hora_salida) -> float:
         position = self.getFloor(floorNumber).getSlotByName(positionName)
-        self.horasIngreso.delete(position.getVehicle().getPlaca())
+        placa = position.getVehicle().getPlaca()
+        self.horasIngreso.delete(placa)
         self.vehicles.delete(position.getVehicle())
         position.clearSlot()
-        #TODO: proceder al checkout de la vainola (por ahora existe el método pagaCole())
+        return self.checkout(placa, hora_ingreso,hora_salida)
 
-    def pagaCole(self, placa, hora_salida) -> float:
-        hora_ingreso = self.horasIngreso.getBy(placa).data.getHora()
-        horas = (hora_salida - hora_ingreso)/3600
+    def checkout(self, placa, hora_ingreso, hora_salida) -> float:
+        horas = (hora_salida - hora_ingreso).total_seconds()/3600
         if horas % 1 > 0:
             return 2000*(1 + int(horas))
         return 2000*int(horas)

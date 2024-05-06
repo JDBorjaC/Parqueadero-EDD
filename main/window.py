@@ -34,14 +34,14 @@ tab2inputs = {
     'placa': TextInput(pygame.Rect(191,90,85,24), 6),
     'tipo': TextInput(pygame.Rect(191,152,90,32), 6, False),
     'estado': TextInput(pygame.Rect(191,222,90,32), 6, False),
-    'response': TextInput(pygame.Rect(70,340,200,32), 50,False)
+    'response': TextInput(pygame.Rect(70,343,200,32), 50,False)
 }
 tab3inputs = {
     'placa': TextInput(pygame.Rect(163,157,267,44)),
     'piso': TextInput(pygame.Rect(163,335,267,44))
 }
 
-#Surfaces que se van a usar
+#Surfaces que se van a usar (tragedia)
 titleImg = pygame.image.load('core/assets/title.png').convert_alpha()
 backdropImg = pygame.image.load('core/assets/menuBackdrop.png').convert_alpha()
 startBtnImg = pygame.image.load('core/assets/startButtonN.png').convert_alpha()
@@ -72,7 +72,7 @@ deleteBtnImg = pygame.image.load('core/assets/deleteBtn.png').convert_alpha()
 deleteBtnImgPressed = pygame.image.load('core/assets/deleteBtnPressed.png').convert_alpha()
         
 
-#instance buttons
+#instance buttons (tragedia)
 startBtn = Button(SCREEN_WIDTH/2, (SCREEN_HEIGHT/2)-75, startBtnImg, startBtnHov, screen)
 floorUpBtn = Button(178+36, 410+33, rightArrImg, rightArrPressedImg, screen)
 floorDownBtn = Button(85+36, 410+33, leftArrImg, leftArrPressedImg, screen)
@@ -83,10 +83,10 @@ searchByCarBtn = Button(235+63, 208+24, searchBtnImg, searchBtnPressedImg, scree
 searchFloorBtn = Button(235+63, 386+24, searchBtnImg, searchBtnPressedImg, screen)
 forwardBtn = Button(911+44, 425+37, forwardBtnImg, forwardBtnImgPressed, screen)
 backwardBtn = Button(4+44, 2+37, backwardBtnImg, backwardBtnPressedImg, screen)
-deleteBtn = Button(99+69, 342+16, deleteBtnImg, deleteBtnImgPressed, screen)
+deleteBtn = Button(99+69, 312+16, deleteBtnImg, deleteBtnImgPressed, screen)
 
 
-#instance images
+#instance images (tragedia)
 menuBackdrop = Image(SCREEN_WIDTH/2, -50, backdropImg, screen)
 tab1.append(menuBackdrop)
 titleImage = Image(SCREEN_WIDTH/2, (SCREEN_HEIGHT/2)-180, titleImg, screen)
@@ -157,6 +157,7 @@ floor = 0
 row = 0
 current_col = -1
 currentSlot = ''
+msg = ''
 while run:
     screen.fill((202, 228, 241))
     
@@ -219,35 +220,40 @@ while run:
 
 
             if currentSlot != '':
-                if parqueadero.getFloor(floor).getSlotByName(currentSlot).getVehicle():
+                vehiculo = parqueadero.getFloor(floor).getSlotByName(currentSlot).getVehicle()
+                if vehiculo:
                     if deleteBtn.draw():
-                        parqueadero.removeVehicle(floor, currentSlot, datetime.datetime.now)
-            
+                        hora_ingreso = parqueadero.horasIngreso.getBy(vehiculo.getPlaca()).data.getHora()
+                        hora_salida = datetime.datetime.now()
+                        msg = 'El vehículo ' + vehiculo.getPlaca() + ' ('+hora_ingreso.strftime("%I:%M:%S %p")+'-'+hora_salida.strftime("%I:%M:%S %p")+')'
+                        cobro = parqueadero.removeVehicle(floor, currentSlot, hora_ingreso, hora_salida)
+                        msg = [msg, f'pagó {cobro} al salir']
+
             if addBtn.draw():
                 
                 flag = True
-                msg = ''
                 placa = tab2inputs['placa'].getText()
 
                 if len(placa) != 6:
                     flag = False
-                    msg = 'La placa debe contener 6 caracteres'
+                    msg = ['La placa debe contener',' 6 caracteres']
                 elif not (placa[:3].isalpha() and placa[3:].isdigit()):
                     flag = False
-                    msg = 'La placa ingresada no es válida'
+                    msg = ['Placa no válida']
                 elif parqueadero.vehicles.getBy(placa.upper()):
                     flag = False
-                    msg = 'El vehículo ya se encuentra en un puesto'
+                    msg = ['Vehículo ya ingresado']
 
                 if flag:
-                    msg = 'Se agregó el vehículo con éxito'
-                    parqueadero.addVehicle(floor, currentSlot, placa, datetime.datetime.now)
-
-                tab2inputs['response'].setText(msg)
+                    msg = ['Se ingresó el vehículo']
+                    parqueadero.addVehicle(floor, currentSlot, placa, datetime.datetime.now())
 
             renderLotButtons(floor, row)
-            for textinput in tab2inputs.values():
-                textinput.draw(screen, surface)
+            for key, textinput in tab2inputs.items():
+                if key != 'response':
+                    textinput.draw(screen, surface)
+                else:
+                    textinput.drawList(screen, surface, msg)
         
         case 2:
             
