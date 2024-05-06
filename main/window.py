@@ -1,3 +1,5 @@
+import datetime
+
 from core.parqueadero.Parqueadero import Parqueadero
 from core.parqueadero.vehiculos.TipoVehiculo import TipoVehiculo
 from core.pygame.Button import Button
@@ -5,13 +7,17 @@ from core.pygame.Image import Image
 
 import pygame
 
+from main.core.pygame.TextInput import TextInput
+
 #display stuff
 SCREEN_HEIGHT = 500
 SCREEN_WIDTH = 1000
 
 #setup---------------------
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption('Demo')
+surface = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.SRCALPHA)
+pygame.display.set_caption('IpePark')
+pygame.display.set_icon(pygame.image.load('core/assets/sosio.png'))
 colorAvailable = pygame.Color(125, 158, 125)
 colorUnavailable = pygame.Color(237, 71, 71)
 
@@ -21,6 +27,19 @@ parqueadero = Parqueadero()
 tab1 = []
 tab2 = []
 tab3 = []
+
+#Listas de TextInput
+tab2inputs = {
+    'lot': TextInput(pygame.Rect(135,38,90,32), 6, False),
+    'placa': TextInput(pygame.Rect(191,90,85,24), 6),
+    'tipo': TextInput(pygame.Rect(191,152,90,32), 6, False),
+    'estado': TextInput(pygame.Rect(191,222,90,32), 6, False),
+    'response': TextInput(pygame.Rect(70,340,200,32), 50,False)
+}
+tab3inputs = {
+    'placa': TextInput(pygame.Rect(163,157,267,44)),
+    'piso': TextInput(pygame.Rect(163,335,267,44))
+}
 
 #Surfaces que se van a usar
 titleImg = pygame.image.load('core/assets/title.png').convert_alpha()
@@ -84,12 +103,12 @@ tab3.append(tab3bg)
 #la fila a mostrar se toma como parametro i, junto con el floor, para colorear cada celda correctamente
 def renderLotButtons(floor, i):
     
-    floor = parqueadero.getFloor(floor)
+    piso = parqueadero.getFloor(floor)
     xPixel = -1
     yOffset = 0
     for j in range(0, 21):
                     
-        slot = floor.getSlotByName(chr(65+i)+str(j+1))
+        slot = piso.getSlotByName(chr(65+i)+str(j+1))
         
         #Decide image
         match slot.getType():
@@ -114,6 +133,9 @@ def renderLotButtons(floor, i):
         #una fila mide 560 pixeles
         #a 381 le sumas la fraccion de la longitud en la que estas (1/7, 2/7, 3/7...)
         currentLot = pArray.make_surface()
+        #Reset pArray
+        pArray.replace(colorAvailable, pygame.Color(255,0,161))
+        pArray.replace(colorUnavailable, pygame.Color(255, 0, 161))
         screen.blit(currentLot, (381+(xPixel/7)*560, 30+(160*yOffset)))
 
 
@@ -123,6 +145,7 @@ tab = 0
 floor = 0
 row = 0
 current_col = -1
+currentSlot = ''
 while run:
     screen.fill((202, 228, 241))
     
@@ -177,8 +200,29 @@ while run:
                 
             if addBtn.draw():
                 print("addPressed")
-                        
+                flag = True
+                msg = ''
+                placa = tab2inputs['placa'].getText()
+
+                if len(placa) != 6:
+                    flag = False
+                    msg = 'La placa debe contener 6 caracteres'
+                elif not (placa[:3].isalpha() and placa[3:].isdigit()):
+                    flag = False
+                    msg = 'La placa ingresada no es válida'
+                elif parqueadero.vehicles.getBy(placa.upper()):
+                    flag = False
+                    msg = 'El vehículo ya se encuentra en un puesto'
+
+                if flag:
+                    msg = 'Se agregó el vehículo con éxito'
+                    parqueadero.addVehicle(floor, currentSlot, placa, datetime.time)
+
+                tab2inputs['response'].setText(msg)
+
             renderLotButtons(floor, row)
+            for textinput in tab2inputs.values():
+                textinput.draw(screen, surface)
         
         case 2:
             
@@ -195,16 +239,52 @@ while run:
             
             if searchFloorBtn.draw():
                 print("an whyhe ouprpl")
+
+            for textinput in tab3inputs.values():
+                textinput.draw(screen, surface)
     
     #Events
     for event in pygame.event.get():
         #Quitting
         if event.type == pygame.QUIT:
             run = False
+
         if event.type == pygame.MOUSEBUTTONDOWN:
-            if tab == 1 and current_col != -1:
-                print("currently at ", chr(65+row), current_col)
-    
+            if tab == 1:
+                if current_col != -1:
+                    currentSlot = chr(65+row) + str(current_col)
+                    slot = parqueadero.getFloor(floor).getSlotByName(currentSlot)
+                    tab2inputs['lot'].setText(slot.getName())
+                    vtype = ""
+                    match slot.getType():
+                        case TipoVehiculo.car:
+                            vtype = "Car"
+                        case TipoVehiculo.motorcycle:
+                            vtype = "Bike"
+                        case TipoVehiculo.reduced_mobility:
+                            vtype = "Disc."
+                    tab2inputs['tipo'].setText(vtype)
+                    estado = slot.getEstado()
+                    tab2inputs['estado'].setText(estado)
+                    if estado == 'Ocupado':
+                        tab2inputs['placa'].setEditable(False)
+                    else:
+                        tab2inputs['placa'].setEditable(True)
+
+                for textinput in tab2inputs.values():
+                    textinput.observeClick(event)
+            elif tab == 2:
+                for textinput in tab3inputs.values():
+                    textinput.observeClick(event)
+
+        if event.type == pygame.KEYDOWN:
+            if tab == 1:
+                for textinput in tab2inputs.values():
+                    textinput.handleTyping(event)
+            elif tab == 2:
+                for textinput in tab3inputs.values():
+                    textinput.handleTyping(event)
+
     pygame.display.update()
 
 pygame.quit()

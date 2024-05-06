@@ -1,5 +1,5 @@
-from core.parqueadero.vehiculos import Vehiculo
-from core.parqueadero.vehiculos.TipoVehiculo import TipoVehiculo
+from main.core.parqueadero.vehiculos import Vehiculo
+from main.core.parqueadero.vehiculos.TipoVehiculo import TipoVehiculo
 
 
 class Posicion():
@@ -16,9 +16,6 @@ class Posicion():
     #La "key" es el puesto
     def keyEquals(self, key):
         return self.puesto == key
-
-    def validToAdd(self, vehicle):
-        return self.type == vehicle.getType()
         
     def fillSlot(self, vehicle) -> None:
         self.vehicle = vehicle
@@ -28,6 +25,14 @@ class Posicion():
 
     def getVehicle(self) -> Vehiculo:
         return self.vehicle
+
+    def getEstado(self) -> str:
+        if self.vehicle:
+            return 'Ocupado'
+        return 'Libre'
+
+    def getName(self) -> str:
+        return self.piso.getName()+self.getPuesto()
 
     def getPuesto(self) -> str:
         return self.puesto
