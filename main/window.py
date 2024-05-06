@@ -49,6 +49,8 @@ backwardBtnImg = pygame.image.load('core/assets/backbtn.png').convert_alpha()
 backwardBtnPressedImg = pygame.image.load('core/assets/backbtnPressed.png').convert_alpha()
 forwardBtnImg = pygame.transform.flip(backwardBtnImg, True, False)
 forwardBtnImgPressed = pygame.transform.flip(backwardBtnPressedImg, True, False)
+deleteBtnImg = pygame.image.load('core/assets/deleteBtn.png').convert_alpha()
+deleteBtnImgPressed = pygame.image.load('core/assets/deleteBtnPressed.png').convert_alpha()
         
 
 #instance buttons
@@ -62,6 +64,7 @@ searchByCarBtn = Button(235+63, 208+24, searchBtnImg, searchBtnPressedImg, scree
 searchFloorBtn = Button(235+63, 386+24, searchBtnImg, searchBtnPressedImg, screen)
 forwardBtn = Button(911+44, 425+37, forwardBtnImg, forwardBtnImgPressed, screen)
 backwardBtn = Button(4+44, 2+37, backwardBtnImg, backwardBtnPressedImg, screen)
+deleteBtn = Button(99+69, 342+16, deleteBtnImg, deleteBtnImgPressed, screen)
 
 
 #instance images
@@ -177,6 +180,9 @@ while run:
                 
             if addBtn.draw():
                 print("addPressed")
+                
+            if deleteBtn.draw():
+                print("delete btn pressed")
                         
             renderLotButtons(floor, row)
         
