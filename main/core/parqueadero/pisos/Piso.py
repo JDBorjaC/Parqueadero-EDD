@@ -1,24 +1,24 @@
-from main.core.parqueadero.pisos.Posicion import Posicion
-from main.core.listas.ListaEnSimple import LinkedList
-from main.core.listas.Nodo import Nodo
+from core.parqueadero.pisos.Posicion import Posicion
+from core.listas.ListaEnSimple import LinkedList
+from core.listas.Nodo import Nodo
+from core.parqueadero.vehiculos.TipoVehiculo import TipoVehiculo
 
 class Piso():
     def __init__(self, name, rows, columns):
         self.name = name
-        # pos(pos, type, filled)
         self.positions = LinkedList()
               
         for i in range(rows):
             for j in range(columns):
                 if j < 12:
-                    kind = "car"
+                    kind = TipoVehiculo.car
                 elif j < 20:
-                    kind = "motorcycle"
+                    kind = TipoVehiculo.motorcycle
                 else:
-                    kind = "reduced_mobility"
+                    kind = TipoVehiculo.reduced_mobility
                 self.positions.append(Posicion(self, chr(65+i) + str(j+1), kind, False))
     
-    def keyEquals(self, key):
+    def keyEquals(self, key) -> bool:
         return self.name == key
 
     def getSlotByName(self, name) -> Posicion:
