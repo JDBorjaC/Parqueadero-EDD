@@ -33,7 +33,7 @@ class Parqueadero():
         position = self.getFloor(floorNumber).getSlotByName(positionName)
         placa = position.getVehicle().getPlaca()
         self.horasIngreso.delete(placa)
-        self.vehicles.delete(position.getVehicle())
+        self.vehicles.delete(placa)
         position.clearSlot()
         return self.checkout(placa, hora_ingreso,hora_salida)
 

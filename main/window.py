@@ -102,8 +102,6 @@ tab3bg = Image(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, tab3refImg, screen)
 tab3.append(tab3bg)
 
 
-parqueadero.addVehicle(0, "A2", Vehiculo("MXN569", TipoVehiculo.car, "A2"), "ALGUNAHORAAHÍ")
-
 #ir celda por celda y revisar si el lote está ocupado
 #dependiendo de eso, sacar un PixelArray del carLotImg, usar PixelArray.replace() para
 #reemplazar el color default de magenta con el que viene la imagen al color correspondiente
@@ -256,6 +254,7 @@ while run:
                     parqueadero.addVehicle(floor, currentSlot, placa, datetime.datetime.now())
 
             renderLotButtons(floor, row)
+            
             for key, textinput in tab2inputs.items():
                 if key != 'response':
                     textinput.draw(screen, surface)
@@ -273,13 +272,17 @@ while run:
                 tab -= 1
             
             if searchByCarBtn.draw():
-                placa = tab3inputs['placa'].getText()
-                if len(placa) != 6:
+                
+                try:
+                    placa = tab3inputs['placa'].getText()
+                    if len(placa) != 6:
+                        tab3inputs['placa'].setText("Placa inválida.")
+                    elif not (placa[:3].isalpha() and placa[3:].isdigit()):
+                        tab3inputs['placa'].setText('La placa ingresada no es válida')
+                    else:
+                        carList = [str(parqueadero.getVehicle(placa)), str(parqueadero.getVehicle(placa).getPos())]
+                except:
                     tab3inputs['placa'].setText("Placa inválida.")
-                elif not (placa[:3].isalpha() and placa[3:].isdigit()):
-                    tab3inputs['placa'].setText('La placa ingresada no es válida')
-                else:
-                    carList = [str(parqueadero.getVehicle(placa)), str(parqueadero.getVehicle(placa).getPos())]
                 
                     
             

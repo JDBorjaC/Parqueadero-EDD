@@ -35,7 +35,7 @@ class LinkedList:
         temporal = self.head
 
         #Mientras que se esté analizando un elemento (truncado)
-        while temporal.next and not temporal.next.data.equals(key): 
+        while temporal.next and not temporal.next.data.keyEquals(key): 
           #Si no es el elemento que se busca, se sigue
           temporal = temporal.next
         
