@@ -1,11 +1,8 @@
 from main.core.parqueadero.pisos.Posicion import Posicion
 from main.core.listas.ListaEnSimple import LinkedList
 from main.core.listas.Nodo import Nodo
-<<<<<<< Updated upstream
-=======
 from main.core.parqueadero.vehiculos.TipoVehiculo import TipoVehiculo
 
->>>>>>> Stashed changes
 
 class Piso():
     def __init__(self, name, rows, columns):

@@ -1,10 +1,7 @@
 from main.core.listas.ListaEnSimple import LinkedList
 from main.core.parqueadero.pisos.Piso import Piso
 from main.core.parqueadero.pisos.Posicion import Posicion
-<<<<<<< Updated upstream
-=======
 from main.core.parqueadero.vehiculos.HoraIngreso import HoraIngreso
->>>>>>> Stashed changes
 from main.core.parqueadero.vehiculos.Vehiculo import Vehiculo
 
 
@@ -14,13 +11,8 @@ class Parqueadero():
         self.vehicles = LinkedList() #Vehiculo(placa, tipo)
         self.horasIngreso = LinkedList() #[placa, horaIngreso]
         for i in range(1, 3):
-<<<<<<< Updated upstream
-            self.floors.append(Piso("F"+str(i), 21, 10))
-        
-=======
             self.floors.append(Piso("F" + str(i), 10, 21))
 
->>>>>>> Stashed changes
     def getFloor(self, index) -> Piso:
         return self.floors.get(index).data
 

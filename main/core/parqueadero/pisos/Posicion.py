@@ -1,10 +1,5 @@
 from main.core.parqueadero.vehiculos import Vehiculo
-<<<<<<< Updated upstream
-from main.core.parqueadero.vehiculos.Auto import Auto
-from main.core.parqueadero.vehiculos.Motocicleta import Motocicleta
-=======
 from main.core.parqueadero.vehiculos.TipoVehiculo import TipoVehiculo
->>>>>>> Stashed changes
 
 
 class Posicion():
@@ -41,7 +36,7 @@ class Posicion():
         return self.kind
     
     def print(self):
-        print("Ubicación: "+self.piso.getName()+self.puesto+ "    Tipo: "+ self.kind+"    Cupo: ",not self.vehicle,"    Carro: "+self.vehicleData())
+        print("Ubicación: "+self.piso.getName()+self.puesto+ "    Tipo: "+ str(self.type)+"    Cupo: ",not self.vehicle,"    Carro: "+self.vehicleData())
 
     def vehicleData(self) -> str:
         if self.vehicle:
