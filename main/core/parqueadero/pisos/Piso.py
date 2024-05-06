@@ -30,3 +30,13 @@ class Piso():
     def printPositions(self):
         for i in range(self.positions.size()):
             self.positions.get(i).data.print()
+    
+    def getAllVehicles(self):
+        vehicles = []
+        for i in range(self.positions.size()):
+            #Si hay un vehiculo en el slot de indice i,
+            if self.positions.get(i).data.getVehicle():
+                vehicles.append(self.positions.get(i).data.getVehicle())
+        return vehicles
+            
+            

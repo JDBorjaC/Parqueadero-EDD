@@ -1,6 +1,7 @@
 from core.listas.ListaEnSimple import LinkedList
 from core.parqueadero.pisos.Piso import Piso
 from core.parqueadero.pisos.Posicion import Posicion
+from core.parqueadero.vehiculos.HoraIngreso import HoraIngreso
 from core.parqueadero.vehiculos.Vehiculo import Vehiculo
 
 
@@ -47,3 +48,8 @@ class Parqueadero():
         if piso:
             return piso.getSlotByName(nombre[2:4])
         return None
+
+    def getVehiclesInFloor(self, floor):
+        searchIn = self.getFloor(floor)
+        vehicles = searchIn.getAllVehicles()
+        return vehicles

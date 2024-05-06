@@ -1,5 +1,6 @@
 from core.parqueadero.Parqueadero import Parqueadero
 from core.parqueadero.vehiculos.TipoVehiculo import TipoVehiculo
+from core.parqueadero.vehiculos.Vehiculo import Vehiculo
 from core.pygame.Button import Button
 from core.pygame.Image import Image
 
@@ -79,6 +80,9 @@ tab2.append(parkgrid)
 tab3bg = Image(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, tab3refImg, screen)
 tab3.append(tab3bg)
 
+
+parqueadero.addVehicle(0, "A2", Vehiculo("MXN569", TipoVehiculo.car), "ALGUNAHORAAHÍ")
+
 #ir celda por celda y revisar si el lote está ocupado
 #dependiendo de eso, sacar un PixelArray del carLotImg, usar PixelArray.replace() para
 #reemplazar el color default de magenta con el que viene la imagen al color correspondiente
@@ -105,7 +109,7 @@ def renderLotButtons(floor, i):
                 
         
         #Decide color
-        if not slot.getVehicle(): #If there *is* a vehicle in the slot, paint it green
+        if not bool(slot.getVehicle()): #If there *isnt* a vehicle in the slot, paint it green
             pArray.replace(pygame.Color(255, 0, 161), colorAvailable)
         else: #else, paint it red
             pArray.replace(pygame.Color(255, 0, 161), colorUnavailable)
@@ -117,6 +121,9 @@ def renderLotButtons(floor, i):
         #una fila mide 560 pixeles
         #a 381 le sumas la fraccion de la longitud en la que estas (1/7, 2/7, 3/7...)
         currentLot = pArray.make_surface()
+        #Reset pArray
+        pArray.replace(colorAvailable, pygame.Color(255, 0, 161))
+        pArray.replace(colorUnavailable, pygame.Color(255, 0, 161))
         screen.blit(currentLot, (381+(xPixel/7)*560, 30+(160*yOffset)))
 
 
