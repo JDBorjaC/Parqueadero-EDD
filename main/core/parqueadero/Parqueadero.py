@@ -10,20 +10,20 @@ class Parqueadero():
         self.floors = LinkedList()
         self.vehicles = LinkedList() #Vehiculo(placa, tipo)
         self.horasIngreso = LinkedList() #[placa, horaIngreso]
-        for i in range(0, 3):
+        for i in range(1, 4):
             self.floors.append(Piso("F" + str(i), 10, 21))
 
     def getFloor(self, index) -> Piso:
         return self.floors.get(index).data
 
-    def addVehicle(self, floorNumber, positionName, vehicle, hour) -> bool:
+    def addVehicle(self, floorNumber, positionName, placa, hour) -> bool:
+        position = self.getFloor(floorNumber).getSlotByName(positionName)
+        vehicle = Vehiculo(placa, position.getType())
         if not self.vehicles.containsObject(vehicle):
-            position = self.getFloor(floorNumber).getSlotByName(positionName)
-            if position.validToAdd(vehicle):
-                position.fillSlot(vehicle)
-                self.vehicles.append(vehicle)
-                self.horasIngreso.append(HoraIngreso(vehicle.getPlaca(), hour))
-                return True
+            position.fillSlot(vehicle)
+            self.vehicles.append(vehicle)
+            self.horasIngreso.append(HoraIngreso(vehicle.getPlaca(), hour))
+            return True
         return False
 
     def removeVehicle(self, position, hora_salida) -> bool:
