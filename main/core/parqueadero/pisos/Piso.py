@@ -1,8 +1,7 @@
-from main.core.parqueadero.pisos.Posicion import Posicion
-from main.core.listas.ListaEnSimple import LinkedList
-from main.core.listas.Nodo import Nodo
-from main.core.parqueadero.vehiculos.TipoVehiculo import TipoVehiculo
-
+from core.parqueadero.pisos.Posicion import Posicion
+from core.listas.ListaEnSimple import LinkedList
+from core.listas.Nodo import Nodo
+from core.parqueadero.vehiculos.TipoVehiculo import TipoVehiculo
 
 class Piso():
     def __init__(self, name, rows, columns):

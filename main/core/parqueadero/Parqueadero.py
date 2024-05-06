@@ -1,8 +1,7 @@
-from main.core.listas.ListaEnSimple import LinkedList
-from main.core.parqueadero.pisos.Piso import Piso
-from main.core.parqueadero.pisos.Posicion import Posicion
-from main.core.parqueadero.vehiculos.HoraIngreso import HoraIngreso
-from main.core.parqueadero.vehiculos.Vehiculo import Vehiculo
+from core.listas.ListaEnSimple import LinkedList
+from core.parqueadero.pisos.Piso import Piso
+from core.parqueadero.pisos.Posicion import Posicion
+from core.parqueadero.vehiculos.Vehiculo import Vehiculo
 
 
 class Parqueadero():
@@ -10,7 +9,7 @@ class Parqueadero():
         self.floors = LinkedList()
         self.vehicles = LinkedList() #Vehiculo(placa, tipo)
         self.horasIngreso = LinkedList() #[placa, horaIngreso]
-        for i in range(1, 3):
+        for i in range(0, 3):
             self.floors.append(Piso("F" + str(i), 10, 21))
 
     def getFloor(self, index) -> Piso:

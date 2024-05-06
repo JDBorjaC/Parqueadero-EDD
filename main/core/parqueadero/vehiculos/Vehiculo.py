@@ -1,4 +1,4 @@
-from main.core.parqueadero.vehiculos.TipoVehiculo import TipoVehiculo
+from core.parqueadero.vehiculos.TipoVehiculo import TipoVehiculo
 
 
 class Vehiculo():
